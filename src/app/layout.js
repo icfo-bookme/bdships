@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/Navbar";
-import Banner from "@/Components/Home/Banner/Banner";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -17,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className} bg-gray-50 min-h-screen`}>
         <Header />
-        <Banner />
+       
         {children}
       </body>
     </html>
