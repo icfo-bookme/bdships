@@ -2,13 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LuMapPin } from "react-icons/lu";
-import SearchButton from "@/utils/SearchButton";
-import useScrollOnFocus from "@/Hooks/useScrollOnFocus";
-
+import useScrollOnClick from "@/hooks/useScrollOnFocus";
 
 const AnimatedSearch = ({
   data = [],
-  searchType = "default", 
+  searchType = "default",
   placeholderConfig = {
     prefix: "Search for",
     showPrefix: true
@@ -26,7 +24,7 @@ const AnimatedSearch = ({
   router,
   resultUrlTemplate = "/{type}/{slug}/{id}"
 }) => {
-  
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -37,10 +35,8 @@ const AnimatedSearch = ({
   const [showPlaceholder, setShowPlaceholder] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const searchRef = useRef(null);
-  const [inputRef, handleClick] = useScrollOnFocus(150);
+  const [inputRef, handleClick] = useScrollOnClick(150);
   const animationIntervalRef = useRef(null);
-
- 
 
   // Default scoring function
   const defaultCalculateMatchScore = (item, query) => {
@@ -99,7 +95,7 @@ const AnimatedSearch = ({
   useEffect(() => {
     if (data?.length) {
       const destinationsOnly = data.filter(item => item.type !== "property");
-      
+
       if (destinationsOnly.length > 0) {
         setTimeout(() => {
           setShowPlaceholder(true);
@@ -110,7 +106,7 @@ const AnimatedSearch = ({
 
   const startAnimation = useCallback(() => {
     const destinationsOnly = data?.filter(item => item.type !== "property") || [];
-    
+
     if (!destinationsOnly.length || !showPlaceholder || isInputFocused || !enableAnimation) return;
 
     if (animationIntervalRef.current) {
@@ -119,18 +115,18 @@ const AnimatedSearch = ({
 
     animationIntervalRef.current = setInterval(() => {
       setAnimationClass('animate-slideOutUp');
-      
+
       setTimeout(() => {
-        setCurrentItemIndex((prevIndex) => 
+        setCurrentItemIndex((prevIndex) =>
           (prevIndex + 1) % destinationsOnly.length
         );
         setAnimationClass('animate-slideInDown');
-        
+
         setTimeout(() => {
           setAnimationClass('');
         }, 600);
       }, 600);
-    }, 2300); 
+    }, 2300);
   }, [data, showPlaceholder, isInputFocused, enableAnimation]);
 
   const stopAnimation = useCallback(() => {
@@ -154,11 +150,11 @@ const AnimatedSearch = ({
 
   const getCurrentItem = () => {
     if (!data?.length) return "";
-    
+
     // Filter out properties for animation
     const destinationsOnly = data.filter(item => item.type !== "property");
     if (destinationsOnly.length === 0) return "";
-    
+
     const currentDestination = destinationsOnly[currentItemIndex % destinationsOnly.length];
     return formatResultText(currentDestination);
   };
@@ -207,7 +203,7 @@ const AnimatedSearch = ({
 
   // Get unique key for each item
   const getItemKey = (item) => {
-    return item.id || item.hotel_id || item.property_id || ``;
+    return item.id || item.hotel_id || item.property_id || `item-${Math.random()}`;
   };
 
   // Event handlers
@@ -222,7 +218,7 @@ const AnimatedSearch = ({
 
   const handleSearchFocus = () => {
     setIsInputFocused(true);
-    
+
     if (isFirstInputInteraction) {
       setIsFirstInputInteraction(false);
       setSearchQuery("");
@@ -231,7 +227,7 @@ const AnimatedSearch = ({
     } else {
       updateSuggestions(searchQuery);
     }
-    
+
     if (showSuggestionsOnFocus) {
       setShowSuggestions(true);
     }
@@ -245,7 +241,7 @@ const AnimatedSearch = ({
     setSearchQuery(formatResultText(item));
     setSelectedItem(item);
     setShowSuggestions(false);
-    
+
     if (onItemSelect) {
       onItemSelect(item);
     }
@@ -253,7 +249,7 @@ const AnimatedSearch = ({
 
   const handleSearch = (e) => {
     e.preventDefault();
-    
+
     if (!selectedItem) {
       alert(`Please select a valid ${searchType} from the list`);
       return;
@@ -286,16 +282,16 @@ const AnimatedSearch = ({
 
     const displayText = formatResultText(item);
     const isProperty = item.type === "property";
-    
+
     return (
       <div className="p-3 hover:bg-blue-50 cursor-pointer text-sm sm:text-base flex justify-between items-center">
         <div className="flex items-center gap-2">
-         
+
           <div>{highlightMatches(displayText, searchQuery)}</div>
-           {isProperty && (
+          {isProperty && (
             <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-               Property
-            </span> 
+              Property
+            </span>
           )}
         </div>
         {index === 0 && item.score > 50 && (
@@ -308,9 +304,9 @@ const AnimatedSearch = ({
   };
 
   return (
-    <div className="border border-gray-200 px-16" ref={searchRef}>
-      <form onSubmit={handleSearch}>
-        <div className="grid grid-cols-1 gap-4 relative">
+    <div className="bg-white max-w-5xl mx-auto text-blue-950 relative" ref={searchRef}>
+      <form onSubmit={handleSearch} className="relative">
+        <div className="grid grid-cols-1 gap-4">
           <div className="space-y-1 relative">
             <label className="block text-sm text-blue-950 font-medium">
               {formatDisplayText(selectedItem || data[0])}
@@ -332,7 +328,7 @@ const AnimatedSearch = ({
                 aria-autocomplete="list"
                 aria-controls={`${searchType}-suggestions`}
               />
-              
+
               {/* Animated placeholder text */}
               {!searchQuery && (
                 <div className="absolute left-10 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden h-6 w-[calc(100%-5rem)]">
@@ -353,9 +349,9 @@ const AnimatedSearch = ({
                 </div>
               )}
             </div>
-            
+
             {showSuggestions && filteredData.length > 0 && (
-              <div 
+              <div
                 id={`${searchType}-suggestions`}
                 className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
               >
@@ -372,8 +368,15 @@ const AnimatedSearch = ({
           </div>
         </div>
 
-        <div className="absolute text-sm md:text-lg mt-3 md:mt-6 left-1/2 -translate-x-1/2 flex justify-end">
-          <SearchButton type="submit">{buttonText}</SearchButton>
+        {/* Fixed Button Positioning */}
+        <div className="absolute customcss" style={{ top: '120%', left: '40%' }}>
+          <button
+            type="submit"
+            style={{ background: "linear-gradient(90deg, #313881, #0678B4)" }}
+            className="px-6 py-3 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-opacity-50 whitespace-nowrap"
+          >
+            {buttonText}
+          </button>
         </div>
       </form>
 
@@ -407,6 +410,11 @@ const AnimatedSearch = ({
         .animate-slideOutUp {
           animation: slideOutUp 0.9s ease-in-out;
         }
+            @media (max-width: 640px) {
+    div.customcss {
+      left: 25% !important;
+    }
+  }
       `}</style>
     </div>
   );

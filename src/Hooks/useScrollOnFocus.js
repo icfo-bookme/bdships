@@ -1,7 +1,8 @@
 'use client';
 import { useRef } from 'react';
 
-export default function useScrollOnFocus(offset = 150, maxWidth = 640) {  const ref = useRef(null);
+export default function useScrollOnClick(offset = 150, maxWidth = 640) {
+  const ref = useRef(null);
 
   const handleClick = () => {
     if (!ref.current) return;

@@ -721,33 +721,3 @@ body {
 	  75% { transform: translateX(4px); }
 	}
   }
-
-   @keyframes slideInDown {
-          from {
-            transform: translateY(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slideOutUp {
-          from {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          to {
-            transform: translateY(-100%);
-            opacity: 0;
-          }
-        }
-        
-        .animate-slideInDown {
-          animation: slideInDown 0.9s ease-in-out;
-        }
-        
-        .animate-slideOutUp {
-          animation: slideOutUp 0.9s ease-in-out;
-        }

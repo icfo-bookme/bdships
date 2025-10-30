@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'class', // allows dark mode via class strategy
+  darkMode: 'class', 
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,28 +8,32 @@ module.exports = {
   ],
   theme: {
     extend: {
+     screens: {
+      'fold': '540px',
+      'hub': '1024px',
+       
+    },
       container: {
-        center: true,
-        padding: "1rem",
+        center: true, 
+        padding: '0', 
+      },
+      boxShadow: {
+        'custom': 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
       },
       colors: {
-        primary: "#00026E",
-        secondary: "#1E40AF",
+        background: "var(--background)", 
+        foreground: "var(--foreground)", 
       },
       fontFamily: {
-        luxia: ["Luxia", "sans-serif"],
+        heading: ['heading',],
       },
-      keyframes: {
-        "shake-vertical": {
-          "0%, 100%": { transform: "translateY(0)" },
-          "25%": { transform: "translateY(-4px)" },
-          "75%": { transform: "translateY(4px)" },
-        },
-      },
-      animation: {
-        "shake-vertical": "shake-vertical 3s ease-in-out infinite",
-      },
+     
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-pseudo-elements')({
+      customPseudoClasses: ['before', 'after'],
+      contentUtilities: true,
+    }),
+  ],
 };
