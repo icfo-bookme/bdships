@@ -1,4 +1,3 @@
-import DashboardLayout from '@/app/layout';
 import getFooterPolicy from '@/Services/tour/getFooterPolicy';
 
 const Page = async () => {
