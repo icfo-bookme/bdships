@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useSearchData } from "@/hooks/useSearchData";
+import { useSearchData } from "@/Hooks/useSearchData";
 import AnimatedSearch from "@/utils/AnimatedSearch";
 import slugify from "@/utils/slugify";
 
