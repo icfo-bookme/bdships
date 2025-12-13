@@ -1,5 +1,5 @@
 import DashboardLayout from '@/app/layout';
-import getFooterPolicy from '@/services/tour/getFooterPolicy';
+import getFooterPolicy from '@/Services/tour/getFooterPolicy';
 
 const Page = async () => {
   let result = [];
