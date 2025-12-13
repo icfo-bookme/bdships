@@ -1,8 +1,9 @@
 'use client';
 
+import useScrollOnClick from "@/Hooks/useScrollOnFocus";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LuMapPin } from "react-icons/lu";
-import useScrollOnClick from "@/hooks/useScrollOnFocus";
+
 
 const AnimatedSearch = ({
   data = [],
