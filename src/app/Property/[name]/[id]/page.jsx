@@ -1,11 +1,12 @@
-import getFacilities from "@/services/tour/getFacilities";
-import getPropertyDetails from "@/services/tour/getPropertyDetails";
-import { getPropertyImages } from "@/services/tour/getPropertyImages";
-import getPropertyPackages from "@/services/tour/getPropertyPackages";
-import getContactNumber from "@/services/tour/getContactNumber";
+
+
 import TourPageUI from "@/components/Ships/TourPageUI";
 import { PreFooter } from "@/components/pre-footer-content/PreFooter";
-
+import getContactNumber from "@/Services/tour/getContactNumber";
+import getFacilities from "@/Services/tour/getFacilities";
+import getPropertyDetails from "@/Services/tour/getPropertyDetails";
+import { getPropertyImages } from "@/Services/tour/getPropertyImages";
+import getPropertyPackages from "@/Services/tour/getPropertyPackages";
 export async function generateMetadata({ params }) {
   const { id } = await params;
 
