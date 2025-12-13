@@ -1,9 +1,9 @@
 import { Roboto } from "next/font/google";
 import PropertyList from "@/components/tour/Property/Property";
-import propertySummary from "@/services/tour/propertySummary";
 import TanguarHaorHouseboatListing from "@/components/pre-footer-content/Tangua";
 import SundarbanCruiseShips from "@/components/pre-footer-content/sundarbanShips";
 import SaintMartinShips from "@/components/pre-footer-content/saintMartinShips";
+import propertySummary from "@/Services/tour/propertySummary";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 

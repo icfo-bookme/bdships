@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import propertySummary from "@/services/tour/propertySummary";
 import { useSearch } from "@/context/SearchContext";
 import { usePagination } from "@/context/usePagination";
 import PropertyFilters from "./PropertyFilters";
