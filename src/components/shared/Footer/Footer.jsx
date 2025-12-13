@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { Playfair_Display, Roboto } from "next/font/google";
-import getContactNumber from '@/services/tour/getContactNumber';
+import getContactNumber from '@/Services/tour/getContactNumber';
 
 const roboto = Roboto({ subsets: ["latin"], weight: ['400', '500', '700'] });
 const Playfair = Playfair_Display({

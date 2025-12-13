@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/free-mode";
 import { Roboto } from "next/font/google";
 import LoadingSpinner from "@/utils/LoadingSpinner";
-import getContactNumber from "@/services/tour/getContactNumber";
+import getContactNumber from "@/Services/tour/getContactNumber";
 import slugify from "@/utils/slugify";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
