@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import ContactForm from "@/components/tour/ContactForm/ContactForm";
-import ImageCarousel from "@/services/tour/ImageCarousel";
+import ImageCarousel from "@/Services/tour/ImageCarousel";
 import { IoLocation } from "react-icons/io5";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
