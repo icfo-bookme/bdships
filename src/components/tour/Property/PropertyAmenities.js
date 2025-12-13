@@ -1,4 +1,5 @@
-import IconShow from "@/services/tour/IconShow";
+import IconShow from "@/Services/tour/IconShow";
+
 
 export default function PropertyAmenities({ summaries }) {
   return (
