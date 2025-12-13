@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import postPackageInfo from "@/services/tour/postPacageInfo";
+import postPackageInfo from "@/Services/tour/postPacageInfo";
+
 
 const ContactForm = ({ propertyDetails, category, headline }) => {
   const {
