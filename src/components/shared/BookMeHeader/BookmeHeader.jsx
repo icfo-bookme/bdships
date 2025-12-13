@@ -207,22 +207,7 @@ const BookMeHeader = () => {
                     priority
                   />
                 </div>
-
-                {/* Main Logo and Text on Right */}
-                <div className="flex flex-col ml-2">
-                  <span className={`text-blue-950 text-base italic font-bold tracking-wide ${Playfair.className}`}>BD SHIPS</span>
-                  <div className="flex items-center">
-                    <Image
-                      src="/l.png"
-                      alt="logo"
-                      width={50}
-                      height={20}
-                      className="changeLogo filter "
-                      priority
-                    />
-                    <span className="text-xs mt-1 text-blue-950 italic">, Sales partner</span>
-                  </div>
-                </div>
+                
               </Link>
 
               {/* Desktop Navigation */}
