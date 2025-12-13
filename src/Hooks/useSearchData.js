@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import getTourDestination from "@/services/getTourDestination";
-import getproperties from '@/services/tour/getproperties';
+import getTourDestination from "@/Services/getTourDestination";
+import getproperties from '@/Services/tour/getproperties';
 
 const transformPropertiesData = (properties, typeContext = "Property") => {
     return (properties || []).map(property => ({
