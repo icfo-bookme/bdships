@@ -43,7 +43,10 @@ const MobileMenu = ({ closeAllMenus, isActiveLink, Playfair }) => {
             </div>
 
             {/* Main Logo and Text on Right */}
-            
+            <div className="flex flex-col ml-2">
+              <span className={`text-blue-950 text-base italic font-black tracking-wide antialiased ${Playfair.className}`}>BD SHIPS</span>
+              
+            </div>
           </div>
         </Link>
       </div>
@@ -207,7 +210,12 @@ const BookMeHeader = () => {
                     priority
                   />
                 </div>
-                
+
+                {/* Main Logo and Text on Right */}
+                <div className="flex flex-col ml-2">
+                  <span className={`text-blue-950 text-base italic font-bold tracking-wide ${Playfair.className}`}>BD SHIPS</span>
+                  
+                </div>
               </Link>
 
               {/* Desktop Navigation */}
