@@ -1,4 +1,4 @@
-import getPopularSummary from "@/services/tour/getPopularSummary"
+import getPopularSummary from "@/Services/tour/getPopularSummary"
 import Tangour from "./Tangour"
 
 export default async function TangourMain() {

@@ -1,4 +1,4 @@
-import getPopularSummary from "@/services/tour/getPopularSummary";
+import getPopularSummary from "@/Services/tour/getPopularSummary";
 import SundarbanShipsClient from "./sundarban";
 
 export default async function SundarbanShips() {
