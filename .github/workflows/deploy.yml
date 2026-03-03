@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      # 2️⃣ Deploy via SSH
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -34,11 +36,19 @@ jobs:
             git pull origin main
 
             echo "✅ Install dependencies..."
-            sudo npm install
+            npm install
 
             echo "✅ Build project..." 
-            sudonpm run build
+            if ! npm run build; then
+              echo "❌ Build failed, aborting deploy."
+              exit 1
+            fi
 
-            echo "✅ Reload PM2 process using ecosystem.config.js..."
+            echo "✅ Build successful. Reloading PM2..."
+            # Start PM2 if not already running
             pm2 describe bdships || pm2 start ecosystem.config.js
+
+            # Reload with updated env
             pm2 reload ecosystem.config.js --update-env
+
+            echo "✅ Deployment completed successfully!"
