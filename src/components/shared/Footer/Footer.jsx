@@ -58,17 +58,7 @@ const Footer = () => {
                                     {/* Main Logo and Text on Right */}
                                     <div className="flex flex-col ml-2">
                                         <span className={`text-blue-50 text-base italic font-bold tracking-wide ${Playfair.className}`}>BD SHIPS</span>
-                                        <div className="flex items-center">
-                                            <Image
-                                                src="/assets/l.png"
-                                                alt="logo"
-                                                width={50}
-                                                height={20}
-                                                className="changeLogo filter "
-                                                priority
-                                            />
-                                            <span className="text-xs mt-1 text-blue-50 italic">, Sales partner</span>
-                                        </div>
+                                        
                                     </div>
                                 </Link>
                             </div>
@@ -76,11 +66,11 @@ const Footer = () => {
                                 Creating unforgettable travel experiences with personalized service and exceptional value.
                             </p>
                             <div className="flex space-x-4 mt-2">
-                                <a href="https://www.facebook.com/share/1B2q3YxE7r/" className="text-white flex items-center justify-center gap-2   hover:text-gray-300 transition">
+                                <a href="https://www.facebook.com/share/bdships/" className="text-white flex items-center justify-center gap-2   hover:text-gray-300 transition">
                                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
                                     </svg>
-                                    <p className='underline text-blue-200'>www.facebook.com/bookmeltd</p>
+                                    <p className='underline text-blue-200'>www.facebook.com/bdships</p>
                                 </a>
                                 {/* <a href="#" className="text-white hover:text-gray-300 transition">
                                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -170,7 +160,7 @@ const Footer = () => {
                     <div className="border-t border-blue-300 pt-6">
                         <div className="flex flex-col md:flex-row justify-between items-center">
                             <p className="text-gray-200 text-sm mb-4 md:mb-0">
-                                © {new Date().getFullYear()} Bookme. All rights reserved.
+                                © {new Date().getFullYear()} BDShips. All rights reserved.
                             </p>
                             <div className="flex space-x-6">
                                 <Link href="/terms" className="text-gray-200 hover:text-white text-sm transition">Terms of Service</Link>
