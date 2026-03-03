@@ -34,10 +34,10 @@ jobs:
             git pull origin main
 
             echo "✅ Install dependencies..."
-            npm install
+            sudo npm install
 
             echo "✅ Build project..." 
-            npm run build
+            sudonpm run build
 
             echo "✅ Reload PM2 process using ecosystem.config.js..."
             pm2 describe bdships || pm2 start ecosystem.config.js
