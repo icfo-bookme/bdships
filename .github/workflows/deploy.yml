@@ -51,4 +51,4 @@ jobs:
             # Reload with updated env
             pm2 reload ecosystem.config.js --update-env
 
-            echo "✅ Deployment completed successfully!"
+            echo "✅ Deployment completed f successfully!"
