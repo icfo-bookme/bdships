@@ -32,6 +32,7 @@ jobs:
             echo "==> Pulling latest code..."
             cd /var/www/bdships
             git reset --hard
+            git clean -fd
             git pull origin main
             git log -1 --oneline
 
