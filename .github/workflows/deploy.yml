@@ -13,9 +13,9 @@ jobs:
     steps:
       # 1. Checkout code
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Deploy via SSH
+      # 2. Deploy on VPS
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -26,26 +26,67 @@ jobs:
           script: |
             set -e
 
-            echo "==> Setting Git safe directory..."
-            git config --global --add safe.directory /var/www/bdships || true
+            REPO=/var/www/bdships
+            echo "==> Running as: $(whoami)"
 
-            echo "==> Fixing permissions on /var/www/bdships..."
-            sudo chown -R deploy:deploy /var/www/bdships
-            sudo chmod -R 755 /var/www/bdships
+            # Run deploy commands as the 'deploy' user (pm2 daemon belongs to deploy).
+            if [ "$(whoami)" = "deploy" ]; then
+              AS_DEPLOY=()
+            else
+              AS_DEPLOY=(sudo -n -u deploy -H)
+            fi
 
-            echo "==> Pulling latest code as 'deploy' user..."
-            sudo -u deploy -H bash -lc 'cd /var/www/bdships && git reset --hard && git pull origin main && git log -1 --oneline'
+            echo "==> Setting git safe directory..."
+            git config --global --add safe.directory "$REPO" || true
+            "${AS_DEPLOY[@]}" bash -lc "git config --global --add safe.directory $REPO || true"
 
-            echo "==> Installing npm dependencies as 'deploy' user..."
-            sudo -u deploy -H bash -lc 'cd /var/www/bdships && npm install --no-audit --no-fund'
+            echo "==> Fixing permissions on $REPO..."
+            "${AS_DEPLOY[@]}" chown -R deploy:deploy "$REPO"
+            "${AS_DEPLOY[@]}" chmod -R 755 "$REPO"
 
-            echo "==> Building production bundle as 'deploy' user..."
-            if ! sudo -u deploy -H bash -lc 'cd /var/www/bdships && npm run build'; then
+            echo "==> Pulling latest code as deploy user..."
+            "${AS_DEPLOY[@]}" bash -lc '
+              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+              cd /var/www/bdships && git reset --hard && git pull origin main && git log -1 --oneline
+            '
+
+            echo "==> Installing npm dependencies as deploy user..."
+            "${AS_DEPLOY[@]}" bash -lc '
+              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+              echo "node: $(node -v 2>&1) | npm: $(npm -v 2>&1)"
+              cd /var/www/bdships && npm install --no-audit --no-fund
+            '
+
+            echo "==> Building production bundle as deploy user..."
+            if "${AS_DEPLOY[@]}" bash -lc '
+              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+              cd /var/www/bdships && npm run build
+            '; then
+              echo "==> Build successful."
+            else
               echo "!!! Build failed, aborting deploy."
               exit 1
             fi
 
-            echo "==> Restarting PM2 as 'deploy' user..."
-            sudo -u deploy -H bash -lc 'cd /var/www/bdships && (pm2 describe bdships >/dev/null 2>&1 && pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js) && pm2 save'
+            echo "==> Restarting PM2 as deploy user..."
+            "${AS_DEPLOY[@]}" bash -lc '
+              [ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"
+              export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+              export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+              command -v pm2 >/dev/null 2>&1 || npm install -g pm2
+              cd /var/www/bdships
+              if pm2 describe bdships >/dev/null 2>&1; then
+                pm2 reload ecosystem.config.js --update-env
+              else
+                pm2 start ecosystem.config.js
+              fi
+              pm2 save
+            '
 
             echo "==> Deployment completed successfully."
