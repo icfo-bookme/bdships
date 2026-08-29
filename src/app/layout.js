@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { SearchProvider } from "@/context/SearchContext";
 import { PaginationProvider } from "@/context/usePagination";
 import BookMeHeader from "@/components/shared/BookMeHeader/BookmeHeader";
+import DataLayerProvider from "@/components/shared/DataLayerProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -50,8 +51,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        <PaginationProvider>
-          <SearchProvider>
+        <DataLayerProvider>
+          <PaginationProvider>
+            <SearchProvider>
               <div className="bg-white">
                 <BookMeHeader />
                 <main className="min-h-[100vh] py-[12px]">
@@ -59,8 +61,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </main>
                 <Footer />
               </div>
-          </SearchProvider>
-        </PaginationProvider>
+            </SearchProvider>
+          </PaginationProvider>
+        </DataLayerProvider>
       </body>
     </html>
   );
