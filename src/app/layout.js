@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import { SearchProvider } from "@/context/SearchContext";
 import { PaginationProvider } from "@/context/usePagination";
 import BookMeHeader from "@/components/shared/BookMeHeader/BookmeHeader";
-import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,9 +28,7 @@ export default function DashboardLayout({ children }) {
           referrerPolicy="no-referrer"
         />
         {/* Google Tag Manager */}
-        <Script
-          id="google-tag-manager"
-          strategy="afterInteractive"
+        <script
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
