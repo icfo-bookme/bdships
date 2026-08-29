@@ -8,13 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      # 1️⃣ Checkout code
+      # 1. Checkout code
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      # 2️⃣ Deploy via SSH
+      # 2. Deploy via SSH
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -23,32 +24,28 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            echo "✅ Setting Git safe directory..."
-            git config --global --add safe.directory /var/www/bdships
+            set -e
 
-            echo "✅ Fixing permissions..."
+            echo "==> Setting Git safe directory..."
+            git config --global --add safe.directory /var/www/bdships || true
+
+            echo "==> Fixing permissions on /var/www/bdships..."
             sudo chown -R deploy:deploy /var/www/bdships
             sudo chmod -R 755 /var/www/bdships
 
-            echo "✅ Pull latest code..."
-            cd /var/www/bdships
-            git reset --hard
-            git pull origin main
+            echo "==> Pulling latest code as 'deploy' user..."
+            sudo -u deploy -H bash -lc 'cd /var/www/bdships && git reset --hard && git pull origin main && git log -1 --oneline'
 
-            echo "✅ Install dependencies..."
-            npm install
+            echo "==> Installing npm dependencies as 'deploy' user..."
+            sudo -u deploy -H bash -lc 'cd /var/www/bdships && npm install --no-audit --no-fund'
 
-            echo "✅ Build project..." 
-            if ! npm run build; then
-              echo "❌ Build failed, aborting deploy."
+            echo "==> Building production bundle as 'deploy' user..."
+            if ! sudo -u deploy -H bash -lc 'cd /var/www/bdships && npm run build'; then
+              echo "!!! Build failed, aborting deploy."
               exit 1
             fi
 
-            echo "✅ Build successful. Reloading PM2..."
-            # Start PM2 if not already running
-            pm2 describe bdships || pm2 start ecosystem.config.js
+            echo "==> Restarting PM2 as 'deploy' user..."
+            sudo -u deploy -H bash -lc 'cd /var/www/bdships && (pm2 describe bdships >/dev/null 2>&1 && pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js) && pm2 save'
 
-            # Reload with updated env
-            pm2 reload ecosystem.config.js --update-env
-
-            echo "✅ Deployment completed f successfully!"
+            echo "==> Deployment completed successfully."
